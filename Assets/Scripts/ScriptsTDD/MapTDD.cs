@@ -12,7 +12,7 @@ namespace Tests
         {
             //arange
             var readFile = new ReadMapFromDevice();
-            Map map = new Map("cheest",readFile);
+            Map map = new Map("chest", readFile);
 
             //act
             int heigth = map.Heigth;
