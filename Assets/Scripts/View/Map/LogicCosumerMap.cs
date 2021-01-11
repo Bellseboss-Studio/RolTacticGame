@@ -10,7 +10,7 @@ public class LogicCosumerMap
     public LogicCosumerMap(ICosumerMap cosumerMap, string nameMap)
     {
         this.cosumerMap = cosumerMap;
-        read = new ReadMapFromDevice();
+        read = new ReadMapFromString();
         map = new Map(nameMap, read);
         space = 1;
 
