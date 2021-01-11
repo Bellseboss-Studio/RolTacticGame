@@ -11,7 +11,7 @@ namespace Tests
         public void CreateChestMap_whitHeightAndWitd()
         {
             //arange
-            var readFile = new ReadMapFromDevice();
+            var readFile = new ReadMapFromString();
             Map map = new Map("chest", readFile);
 
             //act
