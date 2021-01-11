@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Chest.unity
+    guid: 1d5b89c5be9a0b24588cd67799a4e3cd
   m_configObjects: {}
