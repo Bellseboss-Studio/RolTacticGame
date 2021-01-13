@@ -68,7 +68,15 @@ public class ConsumerMap : MonoBehaviour, ICosumerMap
                 if (isCollision.collider != null)
                 {
                     logVisual.AgregarLogvisual("Colisiono con algo " + isCollision.collider.gameObject.name);
-                    pieceFactory.Create("qw").transform.localPosition = transform.position;
+                    //comprobamos que tenga el componente de Ground
+                    if(isCollision.collider.gameObject.TryGetComponent<Ground>(out var ground))
+                    {
+                        if (!ground.isEmpty())
+                        {
+                            var piece = ground.GetPiece();
+                            Debug.Log("La pieza es: " + piece.Id + " con nombre del gameObect de :" + piece.gameObject.name);
+                        }
+                    }
                 }
             }
         }

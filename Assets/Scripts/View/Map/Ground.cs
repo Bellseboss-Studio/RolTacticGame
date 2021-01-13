@@ -12,5 +12,14 @@ public abstract class Ground : MonoBehaviour
         this.piece = piece;
     }
 
+    public PieceOfChest GetPiece()
+    {
+        if (isEmpty())
+        {
+            throw new GetPieceOfChessNotExist("The piece in this ground not exist");
+        }
+        return piece;
+    }
+
     public bool isEmpty() => piece == null;
 }
