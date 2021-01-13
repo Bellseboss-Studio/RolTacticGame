@@ -64,10 +64,11 @@ public class ConsumerMap : MonoBehaviour, ICosumerMap
             if (touch.phase == TouchPhase.Began)
             {
                 Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                bool isCollision = Physics2D.Raycast(transform.position, touch.position);
-                logVisual.AgregarLogvisual("Colisiono con algo " + isCollision);
-                if (isCollision)
+                RaycastHit2D isCollision = Physics2D.Raycast(transform.position, touch.position);
+                logVisual.AgregarLogvisual("Colisiono con algo " + isCollision.collider);
+                if (isCollision.collider != null)
                 {
+                    logVisual.AgregarLogvisual("Colisiono con algo " + isCollision.collider.gameObject.name);
                     pieceFactory.Create("qw").transform.localPosition = transform.position;
                 }
             }
