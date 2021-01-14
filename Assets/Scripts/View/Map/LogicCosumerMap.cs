@@ -16,4 +16,9 @@ public class LogicCosumerMap
 
         cosumerMap.PrintMapInTheView(map);
     }
+
+    public Map GetMap()
+    {
+        return map;
+    }
 }

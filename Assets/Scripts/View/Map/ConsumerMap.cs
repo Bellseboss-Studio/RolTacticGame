@@ -48,7 +48,7 @@ public class ConsumerMap : MonoBehaviour, ICosumerMap
                     PieceOfChest pieceInstantiate = pieceFactory.Create(piece);
                     pieceInstantiate.transform.parent = viewMap[height, width].transform;
                     pieceInstantiate.transform.localPosition = Vector2.zero;
-                    viewMap[height, width].AddPieceOfChest(pieceInstantiate);
+                    viewMap[height, width].AddPieceOfChest(pieceInstantiate, viewMap, map);
                 }
                 width++;
             }
@@ -74,6 +74,13 @@ public class ConsumerMap : MonoBehaviour, ICosumerMap
                         if (!ground.isEmpty())
                         {
                             var piece = ground.GetPiece();
+                            foreach (PositionInTable posicion in piece.ListPosicionInTable(ground, viewMap, logic.GetMap()))
+                            {
+                                if(viewMap[posicion.X, posicion.Y].TryGetComponent<SpriteRenderer>(out var spriteRender))
+                                {
+                                    spriteRender.color = Color.green;
+                                }
+                            }
                             Debug.Log("La pieza es: " + piece.Id + " con nombre del gameObect de :" + piece.gameObject.name);
                         }
                     }
