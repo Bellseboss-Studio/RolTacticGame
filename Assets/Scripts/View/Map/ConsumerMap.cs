@@ -73,14 +73,7 @@ public class ConsumerMap : MonoBehaviour, ICosumerMap
                     {
                         if (!ground.isEmpty())
                         {
-                            var piece = ground.GetPiece();
-                            foreach (PositionInTable posicion in piece.ListPosicionInTable(ground, viewMap, ground.Map))
-                            {
-                                if (viewMap[posicion.X, posicion.Y].TryGetComponent<SpriteRenderer>(out var spriteRender))
-                                {
-                                    spriteRender.color = Color.green;
-                                }
-                            }
+                            ground.PrintGroundIsAvalible();
                         }
                     }
                 }

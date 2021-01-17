@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class Ground : MonoBehaviour
 {
@@ -30,8 +31,12 @@ public abstract class Ground : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //comprobamos que tenga el componente de Ground
-        /*if (gameObject.TryGetComponent<Ground>(out var ground))
+        PrintGroundIsAvalible();
+    }
+
+    public void PrintGroundIsAvalible()
+    {
+        if (gameObject.TryGetComponent<Ground>(out var ground))
         {
             if (!ground.isEmpty())
             {
@@ -44,7 +49,6 @@ public abstract class Ground : MonoBehaviour
                     }
                 }
             }
-        }*/
-        
+        }
     }
 }
