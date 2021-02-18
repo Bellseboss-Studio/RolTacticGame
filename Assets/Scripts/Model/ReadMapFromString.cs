@@ -25,7 +25,7 @@ public class ReadMapFromString : IReadFileFromDevice
                                 "pw-b;pw-n;pw-b;pw-n;pw-b;pw-n;pw-b;pw-n\n" +
                                 "n;b;n;b;n;b;n;b\n" +
                                 "b;n;b;n;b;n;b;n\n" +
-                                "n;b;n;b;hb-n;b;n;b\n" +
+                                "n;b;n;b;n;b;n;b\n" +
                                 "b;n;b;n;b;n;b;n\n" +
                                 "pb-n;pb-b;pb-n;pb-b;pb-n;pb-b;pb-n;pb-b\n" +
                                 "tb-b;hb-n;ab-b;qb-n;kb-b;ab-n;hb-b;tb-n\n";

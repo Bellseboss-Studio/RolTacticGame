@@ -116,4 +116,10 @@ public class PiecePeon : PieceOfChest
     {
         return Id.Contains("w");
     }
+
+    public override void Restart()
+    {
+        base.Restart();
+        firstMoved = 0;
+    }
 }

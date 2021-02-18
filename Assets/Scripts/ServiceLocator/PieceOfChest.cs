@@ -105,4 +105,9 @@ public abstract class PieceOfChest : MonoBehaviour
             }
         }
     }
+
+    public virtual void Restart()
+    {
+
+    }
 }

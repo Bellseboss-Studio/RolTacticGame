@@ -104,6 +104,7 @@ public abstract class Ground : MonoBehaviour
                 groundSaved.piece = piece;
                 groundSaved.piece.transform.SetParent(groundSaved.transform);
                 groundSaved.piece.transform.localPosition = Vector2.zero;
+                groundSaved.piece.Restart();
             }
             ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
             ServiceLocator.Instance.GetService<ICusor>().CleanGround();
