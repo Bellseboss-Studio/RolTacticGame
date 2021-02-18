@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: b
+  colorOriginal: {r: 0.7647059, g: 0.60784316, b: 0.47843137, a: 1}
 --- !u!212 &571922517035753297
 SpriteRenderer:
   m_ObjectHideFlags: 0

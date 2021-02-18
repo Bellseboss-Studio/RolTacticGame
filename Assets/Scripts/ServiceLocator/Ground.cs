@@ -1,21 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Ground : MonoBehaviour
 {
     [SerializeField] private string id;
     private PieceOfChest piece;
-    private Ground[,] viewMap;
+    [SerializeField] private Color colorOriginal;
 
     public string Id => id;
 
-    public Map Map { get; private set; }
-
-    public void AddPieceOfChest(PieceOfChest piece, Ground[,] viewMap, Map map)
+    public void AddPieceOfChest(PieceOfChest piece)
     {
         this.piece = piece;
-        this.viewMap = viewMap;
-        this.Map = map;
     }
 
     public PieceOfChest GetPiece()
@@ -34,36 +31,19 @@ public abstract class Ground : MonoBehaviour
         PrintGroundIsAvalible();
     }
 
-    private void OnMouseUp()
+    public void ColocarColorOriginalAlGround()
     {
-        Debug.Log(ServiceLocator.Instance.GetService<ICusor>().GetGround().gameObject.name);
-        ServiceLocator.Instance.GetService<ICusor>().GetGround().AddPiece(ServiceLocator.Instance.GetService<ICusor>().GetPiece());
-    }
-
-    private void AddPiece(PieceOfChest pieceOfChest)
-    {
-        piece = pieceOfChest;
-        piece.gameObject.transform.parent = transform;
-        piece.transform.localPosition = Vector2.zero;
-    }
-
-    private void OnMouseOver()
-    {
-        //puede darnos el cuadro que podemos dejar el coso
-        if (isEmpty())
+        var mapp = ServiceLocator.Instance.GetService<ICusor>().GetMap();
+        var viewMap = ServiceLocator.Instance.GetService<ICusor>().GetViewMap();
+        for (var X = 0; X < mapp.Heigth;X++)
         {
-            ServiceLocator.Instance.GetService<ICusor>().SaveGroud(this);
-        }
-    }
-
-    private void OnMouseDrag()
-    {
-        //Aqui lo que vamos a hacer es mover el gameobject junto con la posicion del mouse
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        worldPosition.z = 0;
-        if (!isEmpty())
-        {
-            piece.gameObject.transform.position = worldPosition;
+            for (var Y = 0; Y < mapp.Width;Y++)
+            {
+                if (viewMap[X, Y].TryGetComponent<SpriteRenderer>(out var spriteRender))
+                {
+                    spriteRender.color = viewMap[X, Y].colorOriginal;
+                }
+            }
         }
     }
 
@@ -73,17 +53,77 @@ public abstract class Ground : MonoBehaviour
         {
             if (!ground.isEmpty())
             {
-                var piece = ground.GetPiece();
-                ServiceLocator.Instance.GetService<ICusor>().SavePiece(piece);
-                this.piece = null;
-                foreach (PositionInTable posicion in piece.ListPosicionInTable(ground, viewMap, Map))
+                if (ServiceLocator.Instance.GetService<ICusor>().IsInMoved())
+                {
+                    if (!TheMovivedIsLegal(ground))
+                    {
+                        ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
+                        ServiceLocator.Instance.GetService<ICusor>().CleanGround();
+                        return;
+                    }
+                    Destroy(ground.GetPiece().gameObject);
+                    ground.piece = ServiceLocator.Instance.GetService<ICusor>().GetPiece();
+                    ground.piece.transform.SetParent(ground.transform);
+                    ground.piece.transform.localPosition = Vector2.zero;
+                    ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
+                    ServiceLocator.Instance.GetService<ICusor>().CleanGround();
+                    ColocarColorOriginalAlGround();
+                    return;
+                }
+                
+                var actualyPiece = ground.GetPiece();
+                ServiceLocator.Instance.GetService<ICusor>().SavePiece(actualyPiece);
+                ground.piece = null;
+                var viewMap = ServiceLocator.Instance.GetService<ICusor>().GetViewMap();
+                foreach (PositionInTable posicion in actualyPiece.ListPosicionInTable(ground))
                 {
                     if (viewMap[posicion.X, posicion.Y].TryGetComponent<SpriteRenderer>(out var spriteRender))
                     {
                         spriteRender.color = Color.green;
                     }
                 }
+                ServiceLocator.Instance.GetService<ICusor>().SaveGroud(ground);
+                return;
+            }
+
+            if (!ServiceLocator.Instance.GetService<ICusor>().IsInMoved()) {
+                return;
+            }
+
+            ColocarColorOriginalAlGround();
+
+            var piece = ServiceLocator.Instance.GetService<ICusor>().GetPiece();
+            var groundSaved = ServiceLocator.Instance.GetService<ICusor>().GetGround();
+            
+            if (TheMovivedIsLegal(ground))
+            {
+                ground.piece = piece;
+                ground.piece.transform.SetParent(ground.transform);
+                ground.piece.transform.localPosition = Vector2.zero;
+            }
+            else
+            {
+                groundSaved.piece = piece;
+                groundSaved.piece.transform.SetParent(groundSaved.transform);
+                groundSaved.piece.transform.localPosition = Vector2.zero;
+            }
+            ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
+            ServiceLocator.Instance.GetService<ICusor>().CleanGround();
+        }
+    }
+
+    private bool TheMovivedIsLegal(Ground ground)
+    {
+        var viewMap = ServiceLocator.Instance.GetService<ICusor>().GetViewMap();
+        var saveGround = ServiceLocator.Instance.GetService<ICusor>().GetGround();
+        var pieceSaved = ServiceLocator.Instance.GetService<ICusor>().GetPiece();
+        foreach (PositionInTable posicion in pieceSaved.ListPosicionInTable(saveGround))
+        {
+            if (viewMap[posicion.X, posicion.Y].name == ground.name)
+            {
+                return true;
             }
         }
+        return false;
     }
 }

@@ -2,7 +2,7 @@
 
 public class PieceKing : PieceOfChest
 {
-    public override List<PositionInTable> ListPosicionInTable(Ground ground, Ground[,] groundMap, Map map)
+    public override List<PositionInTable> ListPosicionInTable(Ground ground)
     {
         throw new System.NotImplementedException();
     }

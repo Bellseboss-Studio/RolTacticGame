@@ -26,17 +26,19 @@ public class ConsumerMap : MonoBehaviour, ICosumerMap
     public void PrintMapInTheView(Map map)
     {
         viewMap = new Ground[map.Heigth, map.Width];
-        foreach (string[] s in map.MapDetail)
+        ServiceLocator.Instance.GetService<ICusor>().SaveMap(map);
+        ServiceLocator.Instance.GetService<ICusor>().SaveViewMap(viewMap);
+        foreach (string[] mapaLogicoString in map.MapDetail)
         {
             width = 0;
-            foreach (string ss in s)
+            foreach (string detalleDeMapaLogico in mapaLogicoString)
             {
-                string ground = ss;
+                string ground = detalleDeMapaLogico;
                 string piece = "";
-                if (ss.Split('-').Length > 1)
+                if (detalleDeMapaLogico.Split('-').Length > 1)
                 {
-                    piece = ss.Split('-')[0];
-                    ground = ss.Split('-')[1];
+                    piece = detalleDeMapaLogico.Split('-')[0];
+                    ground = detalleDeMapaLogico.Split('-')[1];
 
                 }
                 viewMap[height, width] = groundFactory.Create(ground);
@@ -48,7 +50,7 @@ public class ConsumerMap : MonoBehaviour, ICosumerMap
                     PieceOfChest pieceInstantiate = pieceFactory.Create(piece);
                     pieceInstantiate.transform.parent = viewMap[height, width].transform;
                     pieceInstantiate.transform.localPosition = Vector2.zero;
-                    viewMap[height, width].AddPieceOfChest(pieceInstantiate, viewMap, map);
+                    viewMap[height, width].AddPieceOfChest(pieceInstantiate);
                 }
                 width++;
             }
