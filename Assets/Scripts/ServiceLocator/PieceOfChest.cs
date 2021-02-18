@@ -64,6 +64,26 @@ public abstract class PieceOfChest : MonoBehaviour
         }
         throw new PiecePositionFailException($"The piece, in this moved is imposible in: {position.X} and {position.Y} : {row}, {column}");
     }
+
+    protected bool HasPieceOnThisPosition(int row, int column)
+    {
+        GetPositionsInMap(out var rowNow, out var columnNow);
+        rowNow += row;
+        columnNow += column;
+        var position = new PositionInTable(rowNow, columnNow);
+        try
+        {
+            if (!groundMap[position.X, position.Y].isEmpty())
+            {
+                return true;
+            }
+        }
+        catch (Exception)
+        {
+            throw new PiecePositionFailException($"The piece, try moved in out of range in: {position.X} and {position.Y} : {row}, {column}");
+        }
+        return false;
+    }
     protected void GetPositionsInMap(out int rowNow, out int columnNow)
     {
         rowNow = -1;

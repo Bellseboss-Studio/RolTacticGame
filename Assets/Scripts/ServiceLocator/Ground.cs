@@ -90,8 +90,6 @@ public abstract class Ground : MonoBehaviour
                 return;
             }
 
-            ColocarColorOriginalAlGround();
-
             var piece = ServiceLocator.Instance.GetService<ICusor>().GetPiece();
             var groundSaved = ServiceLocator.Instance.GetService<ICusor>().GetGround();
             
@@ -109,6 +107,7 @@ public abstract class Ground : MonoBehaviour
             }
             ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
             ServiceLocator.Instance.GetService<ICusor>().CleanGround();
+            ColocarColorOriginalAlGround();
         }
     }
 
