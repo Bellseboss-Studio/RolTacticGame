@@ -47,6 +47,22 @@ public abstract class Ground : MonoBehaviour
         }
     }
 
+    public void SearchGroundForInsertPieceSaved(Ground groundTarget, PieceOfChest pieceSaved)
+    {
+        var mapp = ServiceLocator.Instance.GetService<ICusor>().GetMap();
+        var viewMap = ServiceLocator.Instance.GetService<ICusor>().GetViewMap();
+        for (var X = 0; X < mapp.Heigth; X++)
+        {
+            for (var Y = 0; Y < mapp.Width; Y++)
+            {
+                if (viewMap[X, Y].name.Equals(groundTarget.name)) 
+                {
+                    viewMap[X, Y].AddPieceOfChest(pieceSaved);
+                }
+            }
+        }
+    }
+
     public void PrintGroundIsAvalible()
     {
         if (gameObject.TryGetComponent<Ground>(out var ground))
@@ -55,10 +71,22 @@ public abstract class Ground : MonoBehaviour
             {
                 if (ServiceLocator.Instance.GetService<ICusor>().IsInMoved())
                 {
+                    if (!ServiceLocator.Instance.GetService<ITurnSystem>().IsTheTurnForThisPiece(ServiceLocator.Instance.GetService<ICusor>().GetPiece()))
+                    {
+                        return;
+                    }
                     if (!TheMovivedIsLegal(ground))
                     {
+                        var pieceSaved = ServiceLocator.Instance.GetService<ICusor>().GetPiece();
+                        pieceSaved.Restart();
+                        SearchGroundForInsertPieceSaved(ServiceLocator.Instance.GetService<ICusor>().GetGround(), pieceSaved);
                         ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
                         ServiceLocator.Instance.GetService<ICusor>().CleanGround();
+                        ColocarColorOriginalAlGround();
+                        return;
+                    }
+                    if(ThePieceYouAreTringToKillIsTheOwnSide(ServiceLocator.Instance.GetService<ICusor>().GetPiece(), ground.GetPiece()))
+                    {
                         return;
                     }
                     Destroy(ground.GetPiece().gameObject);
@@ -68,9 +96,13 @@ public abstract class Ground : MonoBehaviour
                     ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
                     ServiceLocator.Instance.GetService<ICusor>().CleanGround();
                     ColocarColorOriginalAlGround();
+                    ServiceLocator.Instance.GetService<ITurnSystem>().ThePlayerMove();
                     return;
                 }
-                
+                if (!ServiceLocator.Instance.GetService<ITurnSystem>().IsTheTurnForThisPiece(ground.GetPiece()))
+                {
+                    return;
+                }
                 var actualyPiece = ground.GetPiece();
                 ServiceLocator.Instance.GetService<ICusor>().SavePiece(actualyPiece);
                 ground.piece = null;
@@ -98,6 +130,7 @@ public abstract class Ground : MonoBehaviour
                 ground.piece = piece;
                 ground.piece.transform.SetParent(ground.transform);
                 ground.piece.transform.localPosition = Vector2.zero;
+                ServiceLocator.Instance.GetService<ITurnSystem>().ThePlayerMove();
             }
             else
             {
@@ -109,6 +142,18 @@ public abstract class Ground : MonoBehaviour
             ServiceLocator.Instance.GetService<ICusor>().CleanPiece();
             ServiceLocator.Instance.GetService<ICusor>().CleanGround();
             ColocarColorOriginalAlGround();
+        }
+    }
+
+    private bool ThePieceYouAreTringToKillIsTheOwnSide(PieceOfChest pieceOfChest, PieceOfChest pieceOfChest1)
+    {
+        if (pieceOfChest.ThisPieceIsWhite())
+        {
+            return pieceOfChest.ThisPieceIsWhite() && pieceOfChest1.ThisPieceIsWhite();
+        }
+        else
+        {
+            return !pieceOfChest.ThisPieceIsWhite() && !pieceOfChest1.ThisPieceIsWhite();
         }
     }
 

@@ -18,7 +18,7 @@ public abstract class PieceOfChest : MonoBehaviour
 
         GetPositionsInMap(out var rowNow4, out var columnNow4);
         bool collision = false;
-        while (rowNow4 + row < map.Heigth && rowNow4 + row > 0 && columnNow4 + column > 0 && columnNow4 + column < map.Heigth)
+        while (rowNow4 + row < map.Heigth && rowNow4 + row >= 0 && columnNow4 + column >= 0 && columnNow4 + column < map.Heigth)
         {
             rowNow4 += row;
             columnNow4 += column;
@@ -109,5 +109,10 @@ public abstract class PieceOfChest : MonoBehaviour
     public virtual void Restart()
     {
 
+    }
+
+    internal bool ThisPieceIsWhite()
+    {
+        return id.Contains("w");
     }
 }

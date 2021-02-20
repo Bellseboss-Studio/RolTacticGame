@@ -6,5 +6,7 @@ public class Installer : MonoBehaviour
     {
         var cursor = new Cursor();
         ServiceLocator.Instance.RegisterService<ICusor>(cursor);
+        var turnSystem = new TurnSystem();
+        ServiceLocator.Instance.RegisterService<ITurnSystem>(turnSystem);
     }
 }

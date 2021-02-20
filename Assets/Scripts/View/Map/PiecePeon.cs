@@ -29,36 +29,40 @@ public class PiecePeon : PieceOfChest
                 catch (PiecePositionFailException)
                 { }
             }
-            if (!HasPieceOnThisPosition(1, 1) && !HasPieceOnThisPosition(1, -1))
+            try
             {
-                try
+                if (!HasPieceOnThisPosition(1, 1) && !HasPieceOnThisPosition(1, -1))
                 {
+
                     listResult.Add(PositionAvalibleOfOneIteration(1, 0));
                     return listResult;
+
                 }
-                catch (PiecePositionFailException)
-                { }
             }
-            if(HasPieceOnThisPosition(1, 1))
+            catch (PiecePositionFailException)
+            { }
+            try
             {
-                try
+                if (HasPieceOnThisPosition(1, 1))
                 {
+
                     listResult.Add(PositionAvalibleOfOneIteration(1, 1));
-                }
-                catch (PiecePositionFailException)
-                { }
-            }
 
-            if(HasPieceOnThisPosition(1, -1))
+                }
+            }
+            catch (PiecePositionFailException)
+            { }
+            try
             {
-                try
+                if (HasPieceOnThisPosition(1, -1))
                 {
-                    listResult.Add(PositionAvalibleOfOneIteration(1, -1));
-                }
-                catch (PiecePositionFailException)
-                { }
-            }
 
+                    listResult.Add(PositionAvalibleOfOneIteration(1, -1));
+
+                }
+            }
+            catch (PiecePositionFailException)
+            { }
 
         }
         else
@@ -79,35 +83,40 @@ public class PiecePeon : PieceOfChest
                 catch (PiecePositionFailException)
                 { }
             }
-            
-            if (!HasPieceOnThisPosition(-1, -1) && !HasPieceOnThisPosition(-1, 1))
+            try
             {
-                try
+                if (!HasPieceOnThisPosition(-1, -1) && !HasPieceOnThisPosition(-1, 1))
                 {
+
                     listResult.Add(PositionAvalibleOfOneIteration(-1, 0));
                     return listResult;
+
                 }
-                catch (PiecePositionFailException)
-                { }
             }
-            if(HasPieceOnThisPosition(-1, -1))
+            catch (PiecePositionFailException)
+            { }
+            try
             {
-                try
+                if (HasPieceOnThisPosition(-1, -1))
                 {
+
                     listResult.Add(PositionAvalibleOfOneIteration(-1, -1));
+
                 }
-                catch (PiecePositionFailException)
-                { }
             }
-            if(HasPieceOnThisPosition(-1, 1))
+            catch (PiecePositionFailException)
+            { }
+            try
             {
-                try
+                if (HasPieceOnThisPosition(-1, 1))
                 {
+
                     listResult.Add(PositionAvalibleOfOneIteration(-1, 1));
+
                 }
-                catch (PiecePositionFailException)
-                { }
             }
+            catch (PiecePositionFailException)
+            { }
         }
         return listResult;
     }
