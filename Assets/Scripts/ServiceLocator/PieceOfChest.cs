@@ -36,10 +36,10 @@ public abstract class PieceOfChest : MonoBehaviour
             }
             catch (Exception)
             {
-                Debug.Log($"Exception  in: {position.X} and {position.Y} : row {row}, column {column}");
+                ServiceLocator.Instance.GetService<IServiceOfDebug>().PrintDebug($"Exception  in: {position.X} and {position.Y} : row {row}, column {column}");
                 throw new PiecePositionFailException($"The piece, try moved in out of range in: {position.X} and {position.Y} : {row}, {column}"); 
             }
-            Debug.Log($"in: {position.X} and {position.Y} : {row}, {column}");
+            ServiceLocator.Instance.GetService<IServiceOfDebug>().PrintDebug($"in: {position.X} and {position.Y} : {row}, {column}");
             listResult.Add(position);
         }
         return listResult;
