@@ -48,7 +48,7 @@
                     return "t";
             }
         }
-        throw new IsNotAvalibleForThrowDice("Is not avalible for throw dice");
+        throw new IsNotAvalibleForThrowDice($"No se a lanzado el dado aún");
     }
 
     public string GetIdPiece()

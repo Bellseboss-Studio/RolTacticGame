@@ -17,7 +17,7 @@
     {
         if (isEmpty())
         {
-            throw new GetPieceOfChessNotExist("The piece in this ground not exist");
+            throw new GetPieceOfChessNotExist("No hay pieza de ajedrez en este puesto");
         }
         return Piece;
     }

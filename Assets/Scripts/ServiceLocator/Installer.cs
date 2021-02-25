@@ -24,6 +24,8 @@ public class Installer : MonoBehaviour, IInstallerServiceLocator, IDices, IDebug
     private void ThrowDice()
     {
         ServiceLocator.Instance.GetService<IServiceOfDies>().ThrowDice();
+        string value = ServiceLocator.Instance.GetService<IServiceOfDies>().GetIdPiece();
+        ServiceLocator.Instance.GetService<IServiceOfDebug>().PrintDebug($"La pieza que debes mover es la: {value}");
     }
 
     public void WhriteTextInTurn(string text)
